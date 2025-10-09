@@ -3,10 +3,15 @@ import { useLoaderData, Link } from 'react-router-dom';
 import { getStoredApp, removeFromStoredDB } from '../../utility/addToDb';
 import InstallApp from '../../components/InstalledApps/InstallApp';
 import { FaCaretDown } from "react-icons/fa";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const Installation = () => {
     const data = useLoaderData();
     const [installation, setInstallation] = useState([]);
+    const [sort, setSort] = useState("");
 
     useEffect(() => {
         const storedAppData = getStoredApp();
@@ -16,13 +21,31 @@ const Installation = () => {
     }, [data]);
 
     const handleUninstall = (id) => {
+        MySwal.fire({
+            title: "App Uninstalled",
+            icon: "success",
+            draggable: true
+        });
         removeFromStoredDB(id);
         const updatedList = installation.filter(app => app.id !== id);
         setInstallation(updatedList);
     };
 
+    const handleSort = (type) => {
+        MySwal.fire(`Sorted by ${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        setSort(type);
+        if(type === "size") {
+            const sortedBySize = [...installation].sort((a, b) => a.size - b.size);
+            setInstallation(sortedBySize);
+        }
+        if(type === "ratings") {
+            const sortedByRating = [...installation].sort((a, b) => a.ratingAvg- b.ratingAvg);
+            setInstallation(sortedByRating);
+        }
+    }
+
     return (
-        <div>
+        <div className="mb-[220px]">
             {installation.length > 0 ? (
                 <>
                     <div className="flex flex-col justify-center items-center gap-1 mb-8 mt-5">
@@ -35,13 +58,17 @@ const Installation = () => {
                             Total Apps: <span className="text-blue-600">{installation.length}</span>
                         </h1>
                         <details className="dropdown dropdown-end">
-                            <summary className="btn btn-outline btn-sm text-gray-700 w-30 hover:bg-blue-500 mr-[30px] hover:text-white transition">
-                                Sort By <FaCaretDown className="ml-2" />
+                            <summary className="btn btn-outline btn-sm text-gray-700 w-40 px-3 py-2 text-sm hover:bg-blue-500 mr-8 hover:text-white transition flex items-center justify-between">
+                                    Sort By {sort ? `: ${sort}` : ""} 
+                                    <FaCaretDown className="ml-2" />
                             </summary>
                             <ul className="menu dropdown-content bg-white border border-gray-200 rounded-lg shadow-md w-44 p-2 mt-1">
                                 <li>
-                                    <a className="hover:bg-blue-100 rounded-md px-2 py-1 cursor-pointer">
+                                    <a onClick={() => handleSort("ratings")} className="hover:bg-blue-100 rounded-md px-2 py-1 cursor-pointer">
                                         Ratings 
+                                    </a>
+                                    <a onClick={() => handleSort("size")} className="hover:bg-blue-100 rounded-md px-2 py-1 cursor-pointer">
+                                        Size  
                                     </a>
                                 </li>
                             </ul>

@@ -52,7 +52,12 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end mr-[50px]">
-                <a className="btn bg-gradient-to-r from-blue-500 to-purple-500 text-white flex items-center gap-2">
+                <a
+                        href="https://github.com/Durjoy122/LatestApp"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn bg-gradient-to-r from-blue-500 to-purple-500 text-white flex items-center gap-2"
+                    >     
                     <img src={image2} alt="icon" className="w-[20px]" />
                     Contributor
                 </a>

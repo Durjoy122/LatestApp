@@ -19,7 +19,7 @@ const PageWrapper = ({ children }) => {
                     <img
                         src={logo}
                         alt="loading"
-                        className="w-20 h-20 animate-spin"
+                        className="w-20 h-20 animate-spin -translate-y-30"
                     />
                 </div>
             )}

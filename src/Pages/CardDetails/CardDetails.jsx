@@ -2,7 +2,8 @@ import { useParams , useLoaderData } from 'react-router-dom';
 import icon1 from '../../assets/icd.png';
 import icon2 from '../../assets/icr.png';
 import review from '../../assets/review.png';
-import { addToStoredDB } from '../../utility/addToDb';
+import { getStoredApp, addToStoredDB } from '../../utility/addToDb';
+import { useState, useEffect } from 'react';
 
 import {
   ComposedChart,
@@ -21,9 +22,21 @@ const CardDetails = () => {
     const data = useLoaderData();
     const app = data.find(item => item.id === appId);
     const appRatings = app.ratings;
+    const [isDownloaded, setIsDownloaded] = useState(false);
+
+    useEffect(() => {
+        const storedApps = getStoredApp();
+        setIsDownloaded(storedApps.includes(appId));
+    }, [appId]);
+
     const handleMarkAsRead = (appId) => {
-        addToStoredDB(appId);
+        if(!isDownloaded) {
+            addToStoredDB(appId); 
+            setIsDownloaded(true); 
+        }
+        else addToStoredDB(appId);
     }
+    
     return (
         <div className="bg-gray-100">
             <div className="flex flex-col shadow-md md:flex-row items-center md:items-start gap-20 p-10 bg-gradient-to-br ml-[70px] mb-[30px]
@@ -62,11 +75,17 @@ const CardDetails = () => {
                         </div>
                     </div>
                     <div>
-                        <button onClick={() => handleMarkAsRead(appId)} className="mt-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 
-                        rounded-xl font-semibold shadow-md 
-                        hover:scale-105 hover:shadow-lg">
-                            Download Now ({app.size} MB)
-                        </button> 
+                        <button
+                            onClick={() => handleMarkAsRead(appId)}
+                            className={`mt-4 px-6 py-3 rounded-xl font-semibold shadow-md transition transform ${
+                                isDownloaded
+                                    ? 'bg-amber-500 cursor-not-allowed text-white'
+                                    : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 hover:shadow-lg text-white'
+                            }`}
+                            disabled={isDownloaded}
+                            >
+                            {isDownloaded ? 'Downloaded' : `Download Now (${app.size} MB)`}
+                        </button>
                     </div>
                 </div>
             </div>

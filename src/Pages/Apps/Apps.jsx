@@ -21,6 +21,10 @@ const Apps = () => {
                 </div>
             ) : (
                  <div>
+                    <div className="flex flex-col justify-center items-center gap-1 mb-8">
+                        <h1 className="text-3xl font-bold">Our All Applications</h1>
+                        <p className="text-gray-500">Explore All Apps on the Market developed by us</p>
+                    </div>
                     <div className="flex items-center justify-between mb-5 ml-[20px] mr-[20px]">
                         <p className="text-gray-700 ml-[65px] font-medium">Apps Found: {filteredApps.length}</p>
                         <input
@@ -31,10 +35,7 @@ const Apps = () => {
                             className="p-2 mr-[111px] border border-gray-300 rounded-md w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    <div className="flex flex-col justify-center items-center gap-1 mb-8">
-                        <h1 className="text-3xl font-bold">Our All Applications</h1>
-                        <p className="text-gray-500">Explore All Apps on the Market developed by us</p>
-                    </div>
+                    
                     <div className="grid ml-[80px] mr-[80px] sm:grid-cols-1 md:grid-cols-4 gap-y-6">
                         {filteredApps.map(app => <DisApps key={app.id} App={app} />)}
                     </div>
