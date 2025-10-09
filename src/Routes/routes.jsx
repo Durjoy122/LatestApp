@@ -4,6 +4,7 @@ import ErrorPage from '../Pages/ErrorPage/ErrorPage.jsx';
 import Home from '../Pages/Home/Home.jsx';
 import Apps from '../Pages/Apps/Apps.jsx';
 import Installation from '../Pages/Installation/Installation.jsx';
+import CardDetails from '../Pages/CardDetails/CardDetails.jsx';
 
 
 import { 
@@ -29,7 +30,13 @@ export const router = createBrowserRouter([
             Component: Apps
         },
         {
+            path:"/cardDetails/:id",
+            loader: () => fetch("/localApp.json").then(res => res.json()),
+            Component: CardDetails
+        },
+        {
             path:"/install",
+            loader: () => fetch("/localApp.json").then(res => res.json()),
             Component: Installation
         }
      ]

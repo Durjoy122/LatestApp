@@ -38,8 +38,12 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="flex items-center ml-[50px]">
-                    <img className="w-10" src={image} alt="" />
-                    <a className="text-xl bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent ">HERO.IO</a>
+                   <Link to="/" className="flex items-center gap-2">
+                        <img className="w-10" src={image} alt="Hero Logo" />
+                        <span className="text-xl font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                           HERO.IO
+                        </span>
+                   </Link>
                 </div>
             </div>
             <div className="navbar-center hidden lg:flex">
